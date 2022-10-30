@@ -3,13 +3,22 @@ import '../models/task.dart';
 import 'package:provider/provider.dart';
 import 'package:provider_listview/service/tasklist.dart';
 
+class updatetask extends StatefulWidget {
+  final Task task;
 
+  updatetask(this.task);
+
+  @override
+  updatetaskState createState() => updatetaskState(this.task);
+}
 //class controller
-class updatetask extends StatelessWidget {
-  late Task task;
+class updatetaskState extends State<updatetask> {
+  Task task;
+  
+  updatetaskState(this.task);
 
-  // task = '';
   TextEditingController nameController = TextEditingController();
+
   
   @override
   Widget build(BuildContext context) {

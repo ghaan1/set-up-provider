@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
       routes: {
         "/": (context) => const MyListPage(),
         "/addTask": (context) => AddTaskPage(),
-        "/updatetask": (context) => updatetask(),
+        "/updatetask": (context) => updatetask(Task.fromMap({})),
       },
       initialRoute: "/",
       title: 'Flutter Demo',
