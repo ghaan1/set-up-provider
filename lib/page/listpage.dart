@@ -36,10 +36,44 @@ class _MyListPageState extends State<MyListPage> {
                   var task = context.watch<Tasklist>().taskList[index];
                   return Dismissible(
                     key: UniqueKey(),
-                    onDismissed: (direction) {
-                      context.read<Tasklist>().deleteTask(task);
-                    },
-                    background: Container(color: Colors.red),
+                    background: Container(
+                  color: Colors.blue,
+                  child: Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: Row(
+                      children: <Widget>[
+                        Icon(Icons.favorite, color: Colors.white),
+                        Text('Move to favorites', style: TextStyle(color: Colors.white)),
+                      ],
+                    ),
+                  ),
+                ),
+                secondaryBackground: Container(
+                  color: Colors.red,
+                  child: Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        Icon(Icons.delete, color: Colors.white),
+                        Text('Move to trash', style: TextStyle(color: Colors.white)),
+                      ],
+                    ),
+                  ),
+                ),
+                 onDismissed: (DismissDirection direction) {
+                  if (direction == DismissDirection.startToEnd) {
+                      Navigator.pushNamed(context, "/updatetask");
+                    print("Add to favorite");
+                  } else {
+                     context.read<Tasklist>().deleteTask(task);
+                    print('Remove item');
+                  }
+  
+                 
+                },
+                  
+                   
                     child: ListTile(
                       title:
                           Text(context.watch<Tasklist>().taskList[index].name),
