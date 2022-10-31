@@ -1,106 +1,71 @@
 import 'package:flutter/material.dart';
-import '../models/task.dart';
 import 'package:provider/provider.dart';
-import 'package:provider_listview/service/tasklist.dart';
 
-class updatetask extends StatefulWidget {
-  final Task task;
+import '../models/task.dart';
+import '../service/tasklist.dart';
 
-  updatetask(this.task);
+class EditTaskPage extends StatefulWidget {
+  const EditTaskPage({super.key, this.model});
+
+  final Task? model;
 
   @override
-  updatetaskState createState() => updatetaskState(this.task);
+  State<EditTaskPage> createState() => _EditTaskPageState();
 }
-//class controller
-class updatetaskState extends State<updatetask> {
-  Task task;
-  
-  updatetaskState(this.task);
 
-  TextEditingController nameController = TextEditingController();
+class _EditTaskPageState extends State<EditTaskPage> {
+  TextEditingController? controller;
 
-  
+  @override
+  void initState() {
+    super.initState();
+    controller = TextEditingController(text: widget.model?.name);
+  }
+
   @override
   Widget build(BuildContext context) {
-    //kondisi
-    if (task != null) {
-      nameController.text = task.name;
-    }
-    //rubah
     return Scaffold(
       appBar: AppBar(
-        title: task == null ? Text('Tambah') : Text('Rubah'),
-        leading: Icon(Icons.keyboard_arrow_left),
+        title: const Text("Edit Task Baru"),
       ),
       body: Padding(
-        padding: EdgeInsets.only(top: 15.0, left:10.0, right:10.0),
-        child: ListView(
-          children: <Widget> [
-            // nama
-            Padding (
-              padding: EdgeInsets.only(top:20.0, bottom:20.0),
-              child: TextField(
-                controller: nameController,
-                keyboardType: TextInputType.text,
-                decoration: InputDecoration(
-                  labelText: 'Nama Lengkap',             
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(5.0),
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            TextFormField(
+              controller: controller,
+              decoration: const InputDecoration(
+                hintText: "Masukkan Task Baru",
+              ),
+              onChanged: (value) {},
+            ),
+            const SizedBox(
+              height: 50,
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      final model = Task.fromMap({
+                        'name': controller?.text,
+                        'status': 0,
+                      });
+                      context
+                          .read<Tasklist>()
+                          .editTask(model, widget.model!.name)
+                          .then((value) {
+                        Navigator.pop(context, true);
+                      });
+                    },
+                    child: const Text("Edit Task"),
                   ),
                 ),
-                onChanged: (value) {                  
-                  //                                                    
-                },
-              ),
-            ),
-            // tombol button
-            Padding (
-              padding: EdgeInsets.only(top:20.0, bottom:20.0),
-              child: Row(
-                children: <Widget> [
-                  // tombol simpan
-                  Expanded(
-                     child: ElevatedButton(
-                    onPressed: context.watch<Tasklist>().isActive
-                        ? () {
-                            context
-                                .read<Tasklist>()
-                                .setTaskName(nameController.text);
-                            if (context.read<Tasklist>().isValidated()) {
-                              context.read<Tasklist>().updateTask(
-                                    nameController.text,
-                                  );
-                              Navigator.pop(context);
-                            }
-                          }
-                        : null,
-                    child: const Text("Tambah Task Baru"),
-                  ),
-                    ),
-                  
-                  Container(width: 5.0,),
-                  // tombol batal
-                  Expanded(
-                    child: ElevatedButton(
-                      style: ButtonStyle( 
-                        backgroundColor: MaterialStateProperty.all(Colors.green),
-                      ),
-                     
-                      child: Text(
-                        'Cancel',
-                        textScaleFactor: 1.5,
-                      ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
+              ],
+            )
           ],
         ),
-      )
+      ),
     );
   }
 }

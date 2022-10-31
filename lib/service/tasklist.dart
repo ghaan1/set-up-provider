@@ -81,12 +81,17 @@ class Tasklist with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> updateTask(String taskName) async {
-    print("Update Task ${taskName}");
-    await _databaseService.updateTask(taskName);
-    fetchTaskList();
+  // Future<void> updateTask(String taskName) async {
+  //   print("Update Task ${taskName}");
+  //   await _databaseService.updateTask(taskName);
+  //   fetchTaskList();
+  //   notifyListeners();
+  // }
+   Future<void> editTask(Task task, String before ) async {
+    await _databaseService.editTask(task, before);
     notifyListeners();
-  }
+   }
+
 
   Future<void> deleteTask(Task task) async {
     print("Delete Task ${task.name}");
