@@ -33,7 +33,6 @@ class _EditTaskPageState extends State<EditTaskPage> {
         child: Column(
           children: [
             TextFormField(
-              
               decoration:  InputDecoration(
                 hintText: "Masukkan Task Baru",
                 errorText: context.watch<Tasklist>().taskName.error,
@@ -50,21 +49,19 @@ class _EditTaskPageState extends State<EditTaskPage> {
               children: [
                 Expanded(
                   child: ElevatedButton(
-                    onPressed: 
-                    context.watch<Tasklist>().isActive
-                        ? () {
-                             final model = Task.fromMap({
+                   onPressed: () {
+                      final model = Task.fromMap({
                         'name': controller?.text,
                         'status': 0,
                       });
-                      if(context.read<Tasklist>().isValidated()){
-                          context.read<Tasklist>().editTask(model, widget.model!.name)
+                      context
+                          .read<Tasklist>()
+                          .editTask(model, widget.model!.name)
                           .then((value) {
                         Navigator.pop(context, true);
                       });
-                          }
-                        }
-                        : null,
+                    },
+                   
                     child: const Text("Edit Task"),
                   ),
                 ),
