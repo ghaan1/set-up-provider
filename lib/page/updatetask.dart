@@ -49,19 +49,25 @@ class _EditTaskPageState extends State<EditTaskPage> {
               children: [
                 Expanded(
                   child: ElevatedButton(
-                   onPressed: () {
+                   onPressed: context.watch<Tasklist>().isActive
+                        ? () {
                       final model = Task.fromMap({
                         'name': controller?.text,
                         'status': 0,
                       });
-                      context
+                          context
+                          .read<Tasklist>()
+                          .setTaskName(controller?.text);
+                      if (context.read<Tasklist>().isValidated()) {
+                          context
                           .read<Tasklist>()
                           .editTask(model, widget.model!.name)
                           .then((value) {
-                        Navigator.pop(context, true);
-                      });
-                    },
-                   
+                          Navigator.pop(context, true);
+                          });
+                      }  
+                    }
+                    : null,
                     child: const Text("Edit Task"),
                   ),
                 ),
