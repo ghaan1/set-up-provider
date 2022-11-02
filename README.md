@@ -9,4 +9,4 @@ Challenge untuk hacktoberfest :
 5. Tambahkan fitur edit task.
 6. Tambahkan fitur validasi input di edit task.
 7. Tambahkan fitur disable button edit task jika validasi input masih error.
-<img width="424" alt="Jepretan Layar 2022-11-02 pukul 16 02 54" src="https://user-images.githubusercontent.com/95869359/199447964-b09c1079-8311-42b9-8b9a-3f89a8fc70b7.png">
+
